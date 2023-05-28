@@ -16,4 +16,5 @@ build/
 .DS_STORE
 
 .env
+.env_bak
 .idea

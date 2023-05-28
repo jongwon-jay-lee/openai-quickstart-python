@@ -233,7 +233,7 @@ def post_process_gpt3_response(num_prompt_instructions, response):
 def post_process_gpt4_response(num_prompt_instructions, response):
     if response is None:
         return []
-    raw_instructions = f"{num_prompt_instructions+1}. Instruction:" + response["message"]
+    raw_instructions = f"{num_prompt_instructions+1}. Instruction:" + response["message"]["content"]
     raw_instructions = re.split("###", raw_instructions)
     instructions = []
     for idx, inst in enumerate(raw_instructions):
@@ -300,7 +300,7 @@ def main():
     # model_name = "text-davinci-003"   # max_tokens = 4097
     # model_name = "gpt-4"    # max_token = 8192
     # model_name = "gpt-4-32k"  # max_token = 32768
-    model_name = 'gpt-3.5-turbo'
+    model_name = 'gpt-3.5-turbo'    # max_token = 4097
 
     decoding_args = OpenAIDecodingArguments(
         temperature=temperature,
@@ -334,7 +334,8 @@ def main():
 
     instruction_data = []
     for result in results:
-        new_instructions = post_process_gpt3_response(num_prompt_instructions, result)
+        # new_instructions = post_process_gpt3_response(num_prompt_instructions, result)
+        new_instructions = post_process_gpt4_response(num_prompt_instructions, result)
         instruction_data += new_instructions
 
     print(instruction_data)
